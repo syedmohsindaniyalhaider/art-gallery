@@ -1,0 +1,53 @@
+.register {
+  background-color: #004643;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .comp {
+    padding: 0 20px;
+  }
+
+  .registeration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #abd1c6;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .btnGroup {
+    margin: 0 50px;
+    margin-bottom: 30px;
+  }
+
+  .btnGroup > .btnLeft,
+  .btnGroup > .btnRight {
+    border: none;
+    padding: 10px 30px;
+    text-decoration: none;
+    background-color: #fffffe;
+    color: #001e1d;
+    font-weight: bold;
+  }
+  .btnGroup > .btnLeft:hover,
+  .btnGroup > .btnRight:hover {
+    cursor: pointer;
+    background-color: #f9bc60;
+    color: white;
+  }
+
+  .btnLeft {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .btnRight {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}

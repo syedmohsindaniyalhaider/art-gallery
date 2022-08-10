@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Collections.scss";
 import Box from "@mui/material/Box";
 import FileBase64 from "react-file-base64";
 import {
   Button,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
   Divider,
   Grid,
   InputAdornment,
@@ -13,7 +19,7 @@ import {
 import useInput from "../../hooks/use-input";
 const Collections = () => {
   const [file, setFile] = useState("");
-
+  const [arts, setArts] = useState([]);
   const {
     value: title,
     hasError: titleHasError,
@@ -58,6 +64,17 @@ const Collections = () => {
     }).catch((err) => console.error(err));
   };
 
+  const fetchArts = async () => {
+    const response = await fetch("http://localhost:3001/arts");
+    const data = await response.json();
+    console.log(data);
+    setArts(data);
+  };
+
+  useEffect(() => {
+    fetchArts();
+  }, []);
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log(file);
@@ -66,10 +83,11 @@ const Collections = () => {
     resetPrice();
     resetDescription();
     setFile("");
+    fetchArts();
   };
 
   return (
-    <Box className="collections">
+    <Box className="collections" sx={{ my: "100px" }}>
       <Box>
         <h2>
           Add New Art
@@ -139,7 +157,39 @@ const Collections = () => {
             Submit
           </Button>
         </form>
-        <Box></Box>
+        <Box>
+          <h2>
+            All Arts
+            <Divider />
+          </h2>
+          <Box>
+            {arts.map((item) => (
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={item.image}
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {item.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    {item.price}
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

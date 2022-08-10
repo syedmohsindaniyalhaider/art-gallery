@@ -40,6 +40,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // /blogs
 
 app.post("/arts", (req, res) => {
+  console.log(req.body);
   artSchema.create(req.body, (error, data) => {
     if (error) {
       return next(error);
@@ -105,21 +106,21 @@ app.get("/arts", (req, res) => {
 //     .exec(function (error, data) {
 //       console.log(data);
 //     });
-  // blogsSchema
-  //   .find({})
-  //   .populate("comments")
-  //   .exec(function (error, data) {
-  //     console.log(data);
-  //   });
+// blogsSchema
+//   .find({})
+//   .populate("comments")
+//   .exec(function (error, data) {
+//     console.log(data);
+//   });
 
-  // blogsSchema.create(req.body, (error, data) => {
-  //   if (error) {
-  //     return next(error);
-  //   } else {
-  //     console.log(data);
-  //     res.json(data);
-  //   }
-  // });
+// blogsSchema.create(req.body, (error, data) => {
+//   if (error) {
+//     return next(error);
+//   } else {
+//     console.log(data);
+//     res.json(data);
+//   }
+// });
 // });
 
 //  blogsSchema.find({})

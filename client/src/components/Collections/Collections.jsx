@@ -6,6 +6,7 @@ import {
   Button,
   Divider,
   Grid,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
@@ -36,10 +37,36 @@ const Collections = () => {
     isValid: priceIsValid,
     inputChangeHandler: priceChangeHandler,
     inputBlurHandler: priceBlurHandler,
-    reset: resetprice,
+    reset: resetPrice,
   } = useInput((value) => value.trim() !== "");
 
-  const formIsValid = titleIsValid && priceIsValid && file !== "";
+  const formIsValid =
+    titleIsValid && priceIsValid && descriptionIsValid && file !== "";
+
+  const artDetails = {
+    title: title,
+    price: price,
+    description: description,
+    image: file,
+  };
+
+  const artsHTTP = async () => {
+    await fetch("http://localhost:3001/arts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(artDetails),
+    }).catch((err) => console.error(err));
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(file);
+    artsHTTP();
+    resetTitle();
+    resetPrice();
+    resetDescription();
+    setFile("");
+  };
 
   return (
     <Box className="collections">
@@ -48,7 +75,7 @@ const Collections = () => {
           Add New Art
           <Divider />
         </h2>
-        <form action="">
+        <form onSubmit={onSubmitHandler}>
           <Grid
             container
             rowSpacing={1}
@@ -57,6 +84,7 @@ const Collections = () => {
             <Grid item xs={6}>
               <InputLabel>Title</InputLabel>
               <OutlinedInput
+                error={titleHasError}
                 placeholder="Enter Title"
                 value={title}
                 onChange={titleChangeHandler}
@@ -67,6 +95,11 @@ const Collections = () => {
             <Grid item xs={6}>
               <InputLabel>Price</InputLabel>
               <OutlinedInput
+                startAdornment={
+                  <InputAdornment position="start">Rs</InputAdornment>
+                }
+                type="number"
+                error={priceHasError}
                 placeholder="Enter Price"
                 value={price}
                 onChange={priceChangeHandler}
@@ -77,6 +110,7 @@ const Collections = () => {
             <Grid item xs={6}>
               <InputLabel>Description</InputLabel>
               <OutlinedInput
+                error={descriptionHasError}
                 multiline
                 rows={4}
                 placeholder="Enter Description"
@@ -91,15 +125,15 @@ const Collections = () => {
               <FileBase64
                 type="file"
                 multiple={false}
-                name="blogImage"
+                name="image"
                 onDone={({ base64 }) => setFile(base64)}
               />
             </Grid>
           </Grid>
           <Button
+            type="submit"
             sx={{ mt: "20px" }}
-            // className={!formIsValid ? "disable" : "btn"}
-            // disabled={!formIsValid}
+            disabled={!formIsValid}
             variant="contained"
           >
             Submit

@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 let Arts = new Schema(
   {
     title: String,
-    subTitle: String,
-    paragraph: String,
-    blogImage: String,
+    price: String,
+    description: String,
+    image: String,
   },
   {
     collection: "arts",

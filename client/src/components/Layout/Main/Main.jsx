@@ -10,7 +10,12 @@ const Main = () => {
   return (
     <>
       <Header />
-      <Box sx={{ minHeight: "100vh", marginTop: "100px" }}>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          marginTop: "100px",
+        }}
+      >
         <Container>
           <Outlet />
         </Container>

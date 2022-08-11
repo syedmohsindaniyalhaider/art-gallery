@@ -59,7 +59,7 @@ const Header = (props) => {
 
   return (
     <ElevationScroll {...props}>
-      <AppBar className="header" sx={{ backgroundColor: "#ffd803" }}>
+      <AppBar className="header" sx={{ backgroundColor: "#FF6043" }}>
         <Container>
           <Toolbar disableGutters>
             <Typography
@@ -92,7 +92,7 @@ const Header = (props) => {
                     onClick={handleCloseNavMenu}
                     sx={{
                       my: 2,
-                      color: "#272343 ",
+                      color: "#fff",
                       display: "block",
                       fontWeight: "bold",
                       textTransform: "capitalize",

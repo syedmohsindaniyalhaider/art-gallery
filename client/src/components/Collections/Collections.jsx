@@ -2,20 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Collections.scss";
 import Box from "@mui/material/Box";
 import FileBase64 from "react-file-base64";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Divider,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
+import {Button,Card,CardActionArea,CardMedia,CardContent,Typography,Divider,Grid,InputAdornment,InputLabel,OutlinedInput} from "@mui/material";
 import useInput from "../../hooks/use-input";
 const Collections = () => {
   const [file, setFile] = useState("");
@@ -99,7 +86,7 @@ const Collections = () => {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <InputLabel>Title</InputLabel>
               <OutlinedInput
                 error={titleHasError}
@@ -110,7 +97,7 @@ const Collections = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <InputLabel>Price</InputLabel>
               <OutlinedInput
                 startAdornment={
@@ -125,7 +112,7 @@ const Collections = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <InputLabel>Description</InputLabel>
               <OutlinedInput
                 error={descriptionHasError}
@@ -138,7 +125,7 @@ const Collections = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <InputLabel>Upload Art</InputLabel>
               <FileBase64
                 type="file"
@@ -162,33 +149,37 @@ const Collections = () => {
             All Arts
             <Divider />
           </h2>
-          <Box>
+          <Grid
+            container
+            rowSpacing={{ xs: 1, sm: 2, md: 3 }}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
             {arts.map((item) => (
-              <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.image}
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {item.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.description}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    {item.price}
-                  </Button>
-                </CardActions>
-              </Card>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={item.image}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {item.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <Typography sx={{ fontSize: "13px", mx: 2, my: 1 }}>
+                    Rs. {item.price}
+                  </Typography>
+                </Card>
+              </Grid>
             ))}
-          </Box>
+          </Grid>
         </Box>
       </Box>
     </Box>

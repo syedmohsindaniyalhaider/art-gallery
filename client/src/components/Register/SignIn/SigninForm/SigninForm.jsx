@@ -1,3 +1,4 @@
+import { Button, InputLabel, OutlinedInput } from "@mui/material";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SigninForm.scss";
@@ -39,59 +40,71 @@ const SignInForm = ({
   return (
     <>
       <form onSubmit={submitHandler}>
-        <label htmlFor="email">Email</label>
-        <div className="mb">
-          <input
-            type="email"
-            name="email"
-            className="input"
-            value={email}
-            onChange={(e) => {
-              emailChangeHandler(e);
-              setLoginEmail(e.target.value);
-            }}
-            onBlur={emailBlurHandler}
-          />
-          {emailHasError && (
-            <div>
-              <small className="error">* Enter a valid email</small>
-            </div>
-          )}
+        <InputLabel sx={{ color: "#5f7d95", fontWeight: "bold" }}>
+          Email
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          error={emailHasError}
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => {
+            emailChangeHandler(e);
+            setLoginEmail(e.target.value);
+          }}
+          onBlur={emailBlurHandler}
+          sx={{ mb: "20px", py: "5px" }}
+        />
+        <InputLabel sx={{ color: "#5f7d95", fontWeight: "bold" }}>
+          Password
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          sx={{ py: "5px" }}
+          fullWidth
+          error={passwordHasError}
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => {
+            passwordChangeHandler(e);
+            setLoginPassword(e.target.value);
+          }}
+          onBlur={passwordBlurHandler}
+        />
+        {loading && <div className="loader"></div>}
+        <div className="w">
+          <small>{error}</small>
         </div>
-        <label htmlFor="password">Password</label>
-        <div className="mb">
-          <input
-            type="password"
-            name="password"
-            className="input"
-            value={password}
-            onChange={(e) => {
-              passwordChangeHandler(e);
-              setLoginPassword(e.target.value);
-            }}
-            onBlur={passwordBlurHandler}
-          />
-          {passwordHasError && (
-            <div>
-              <small className="error">* Enter a valid password</small>
-            </div>
-          )}
-          {loading && <div className="loader"></div>}
-          <div className="w">
-            <small>{error}</small>
+        {userExist !== null && !userExist && !loading && (
+          <div>
+            <small className="error">* Incorrect email or password</small>
           </div>
-          {userExist !== null && !userExist && !loading && (
-            <div>
-              <small className="error">* Incorrect email or password</small>
-            </div>
-          )}
-        </div>
-        <button
-          className={!formIsValid ? "disable" : "btn"}
+        )}
+        <Button
+          size="small"
+          fullWidth
+          disableRipple
+          sx={{
+            py: "15px",
+            mt: "20px",
+            textTransform: "capitalize",
+            fontWeight: "bold",
+            backgroundColor: "#496BD6",
+            boxShadow: "none",
+            "&:hover": {
+              backgroundColor: "#496BD6",
+              boxShadow: "none",
+            },
+          }}
+          variant="contained"
+          className={!formIsValid ? "disable" : ""}
           disabled={!formIsValid}
         >
           Sign In
-        </button>
+        </Button>
       </form>
     </>
   );

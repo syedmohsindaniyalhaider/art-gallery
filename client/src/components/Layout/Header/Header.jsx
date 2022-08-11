@@ -16,7 +16,7 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 const pages = [
   { name: "Home", link: "home" },
-  { name: "Collections", link: "collections" },
+  { name: "My Collections", link: "collections" },
   { name: "Discover", link: "discover" },
   { name: "About", link: "about" },
 ];

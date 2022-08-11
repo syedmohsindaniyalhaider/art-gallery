@@ -1,9 +1,9 @@
-import { Button, Input, InputLabel, OutlinedInput } from "@mui/material";
+import { Button, InputLabel, OutlinedInput } from "@mui/material";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SignupForm.scss";
 const SignUpForm = ({
-  checkUser,
+  addUser,
   userAlreadyExist,
   setSignUpEmail,
   setSignUpPassword,
@@ -67,7 +67,7 @@ const SignUpForm = ({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    checkUser(userDetails);
+    addUser(userDetails);
     resetFirstName();
     resetLastName();
     resetEmail();
@@ -78,7 +78,7 @@ const SignUpForm = ({
     <>
       <form onSubmit={submitHandler}>
         <InputLabel
-          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
           htmlFor="firstname"
         >
           First Name
@@ -86,7 +86,7 @@ const SignUpForm = ({
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "15px", py: "5px" }}
+          sx={{ mb: "15px", py: "3px" }}
           type="firstname"
           name="firstname"
           value={firstName}
@@ -95,7 +95,7 @@ const SignUpForm = ({
           error={firstNameHasError}
         />
         <InputLabel
-          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
           htmlFor="lastname"
         >
           Last Name
@@ -103,7 +103,7 @@ const SignUpForm = ({
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "15px", py: "5px" }}
+          sx={{ mb: "15px", py: "3px" }}
           type="lastname"
           name="lastname"
           value={lastName}
@@ -112,7 +112,7 @@ const SignUpForm = ({
           error={lastNameHasError}
         />
         <InputLabel
-          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
           htmlFor="email"
         >
           Email
@@ -120,7 +120,7 @@ const SignUpForm = ({
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "15px", py: "5px" }}
+          sx={{ mb: "15px", py: "3px" }}
           type="email"
           name="email"
           className="input"
@@ -133,7 +133,7 @@ const SignUpForm = ({
           error={emailHasError}
         />
         <InputLabel
-          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
           htmlFor="password"
         >
           Password
@@ -141,7 +141,7 @@ const SignUpForm = ({
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "15px", py: "5px" }}
+          sx={{ mb: "15px", py: "3px" }}
           type="password"
           name="password"
           className="input"
@@ -154,7 +154,7 @@ const SignUpForm = ({
           error={passwordHasError}
         />
         <InputLabel
-          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
           htmlFor="confirmpassword"
         >
           Confirm Password
@@ -162,7 +162,7 @@ const SignUpForm = ({
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "15px", py: "5px" }}
+          sx={{ py: "3px" }}
           type="password"
           name="confirmpassword"
           className="input"
@@ -171,20 +171,20 @@ const SignUpForm = ({
           onBlur={confirmPasswordBlurHandler}
           error={!passwordMatch}
         />
-        {!passwordMatch && (
+        {/* {!passwordMatch && (
           <small className="error">Password does not match</small>
-        )}
+        )} */}
         <Button
+          type="submit"
           size="small"
           fullWidth
           disableRipple
           sx={{
-            py: "15px",
+            py: "12px",
             mt: "20px",
             textTransform: "capitalize",
             fontWeight: "bold",
             backgroundColor: "#496BD6",
-
             boxShadow: "none",
             "&:hover": {
               backgroundColor: "#496BD6",

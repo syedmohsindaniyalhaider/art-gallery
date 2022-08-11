@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 
 let artSchema = require("./models/Arts");
+let registerationSchema = require("./models/Registeration");
 // let commentsSchema = require("./models/comments-model");
 
 //Set up default mongoose connection
@@ -36,8 +37,8 @@ var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// post a blogs
-// /blogs
+// post a arts
+// /arts
 
 app.post("/arts", (req, res) => {
   console.log(req.body);
@@ -51,8 +52,8 @@ app.post("/arts", (req, res) => {
   });
 });
 
-// get all blogs
-// /blogs
+// get all arts
+// /arts
 
 app.get("/arts", (req, res) => {
   db.collection("arts")
@@ -64,6 +65,20 @@ app.get("/arts", (req, res) => {
         res.send(result);
       }
     });
+});
+
+// post users
+
+app.post("/auth/signup", (req, res) => {
+  console.log(req.body);
+  registerationSchema.create(req.body, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      console.log(data);
+      res.json(data);
+    }
+  });
 });
 
 // post a comment

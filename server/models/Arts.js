@@ -6,6 +6,7 @@ let Arts = new Schema(
     price: String,
     description: String,
     image: String,
+    type: String,
   },
   {
     collection: "arts",

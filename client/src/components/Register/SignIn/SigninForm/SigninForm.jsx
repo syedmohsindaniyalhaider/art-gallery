@@ -40,13 +40,15 @@ const SignInForm = ({
   return (
     <>
       <form onSubmit={submitHandler}>
-        <InputLabel sx={{ color: "#5f7d95", fontWeight: "bold" }}>
+        <InputLabel
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+        >
           Email
         </InputLabel>
         <OutlinedInput
           size="small"
           fullWidth
-          sx={{ mb: "20px", py: "5px" }}
+          sx={{ mb: "20px", py: "3px" }}
           error={emailHasError}
           type="email"
           name="email"
@@ -57,12 +59,14 @@ const SignInForm = ({
           }}
           onBlur={emailBlurHandler}
         />
-        <InputLabel sx={{ color: "#5f7d95", fontWeight: "bold" }}>
+        <InputLabel
+          sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+        >
           Password
         </InputLabel>
         <OutlinedInput
           size="small"
-          sx={{ py: "5px"}}
+          sx={{ py: "3px" }}
           fullWidth
           error={passwordHasError}
           type="password"
@@ -88,7 +92,7 @@ const SignInForm = ({
           fullWidth
           disableRipple
           sx={{
-            py: "15px",
+            py: "12px",
             mt: "20px",
             textTransform: "capitalize",
             fontWeight: "bold",
@@ -101,7 +105,6 @@ const SignInForm = ({
             },
           }}
           variant="contained"
-          className={!formIsValid ? "disable" : ""}
           disabled={!formIsValid}
         >
           Sign In

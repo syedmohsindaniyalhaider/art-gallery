@@ -23,9 +23,12 @@ const Register = () => {
           backgroundColor: "white",
           width: "30%",
           height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
-        <Box sx={{ my: 40, mx: 10 }}>
+        <Box sx={{ mx: 10 }}>
           <Box className="btnGroup" sx={{ textAlign: "center" }}>
             <Link to="/signin" onClick={() => setActive(0)} className="btnLeft">
               Sign In

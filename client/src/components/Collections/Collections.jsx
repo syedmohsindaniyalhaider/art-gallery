@@ -2,11 +2,31 @@ import React, { useEffect, useState } from "react";
 import "./Collections.scss";
 import Box from "@mui/material/Box";
 import FileBase64 from "react-file-base64";
-import {Button,Card,CardActionArea,CardMedia,CardContent,Typography,Divider,Grid,InputAdornment,InputLabel,OutlinedInput} from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  Divider,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Autocomplete,
+  Badge,
+} from "@mui/material";
 import useInput from "../../hooks/use-input";
+
+const options = ["Digital", "Physical"];
+
 const Collections = () => {
   const [file, setFile] = useState("");
   const [arts, setArts] = useState([]);
+  const [type, setType] = useState(options[0]);
+  const [inputValue, setInputValue] = React.useState("");
+
   const {
     value: title,
     hasError: titleHasError,
@@ -41,6 +61,7 @@ const Collections = () => {
     price: price,
     description: description,
     image: file,
+    type: type,
   };
 
   const artsHTTP = async () => {
@@ -87,19 +108,32 @@ const Collections = () => {
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
             <Grid item xs={12} sm={6}>
-              <InputLabel>Title</InputLabel>
+              <InputLabel
+                sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Title
+              </InputLabel>
               <OutlinedInput
+                size="small"
+                fullWidth
+                sx={{ mb: "20px", py: "3px" }}
                 error={titleHasError}
                 placeholder="Enter Title"
                 value={title}
                 onChange={titleChangeHandler}
                 onBlur={titleBlurHandler}
-                fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <InputLabel>Price</InputLabel>
+              <InputLabel
+                sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Price
+              </InputLabel>
               <OutlinedInput
+                size="small"
+                fullWidth
+                sx={{ mb: "20px", py: "3px" }}
                 startAdornment={
                   <InputAdornment position="start">Rs</InputAdornment>
                 }
@@ -109,12 +143,46 @@ const Collections = () => {
                 value={price}
                 onChange={priceChangeHandler}
                 onBlur={priceBlurHandler}
-                fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <InputLabel>Description</InputLabel>
+              <InputLabel
+                sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Type
+              </InputLabel>
+              <Autocomplete
+                sx={{ p: "0" }}
+                value={type}
+                onChange={(event, newValue) => {
+                  setType(newValue);
+                }}
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                  setInputValue(newInputValue);
+                }}
+                options={options}
+                renderInput={(params) => (
+                  <Box ref={params.InputProps.ref}>
+                    <OutlinedInput
+                      size="small"
+                      fullWidth
+                      {...params.inputProps}
+                    />
+                  </Box>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputLabel
+                sx={{ color: "#5f7d95", fontSize: "14px", fontWeight: "bold" }}
+              >
+                Description
+              </InputLabel>
               <OutlinedInput
+                size="small"
+                fullWidth
+                sx={{ mb: "20px", py: "3px" }}
                 error={descriptionHasError}
                 multiline
                 rows={4}
@@ -122,9 +190,9 @@ const Collections = () => {
                 value={description}
                 onChange={descriptionChangeHandler}
                 onBlur={descriptionBlurHandler}
-                fullWidth
               />
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <InputLabel>Upload Art</InputLabel>
               <FileBase64
@@ -137,7 +205,17 @@ const Collections = () => {
           </Grid>
           <Button
             type="submit"
-            sx={{ mt: "20px" }}
+            sx={{
+              mt: "20px",
+              textTransform: "capitalize",
+              fontWeight: "bold",
+              backgroundColor: "#496BD6",
+              boxShadow: "none",
+              "&:hover": {
+                backgroundColor: "#496BD6",
+                boxShadow: "none",
+              },
+            }}
             disabled={!formIsValid}
             variant="contained"
           >
@@ -173,9 +251,24 @@ const Collections = () => {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <Typography sx={{ fontSize: "13px", mx: 2, my: 1 }}>
-                    Rs. {item.price}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontSize: "13px", mx: 2, my: 1 }}>
+                      Rs. {item.price}
+                    </Typography>
+                    {item.type && (
+                      <Badge
+                        sx={{ mr: "40px" }}
+                        color="secondary"
+                        badgeContent={item.type}
+                      ></Badge>
+                    )}
+                  </Box>
                 </Card>
               </Grid>
             ))}

@@ -62,7 +62,7 @@ const SignInForm = ({
         </InputLabel>
         <OutlinedInput
           size="small"
-          sx={{ py: "5px" }}
+          sx={{ py: "5px"}}
           fullWidth
           error={passwordHasError}
           type="password"
@@ -93,6 +93,7 @@ const SignInForm = ({
             textTransform: "capitalize",
             fontWeight: "bold",
             backgroundColor: "#496BD6",
+
             boxShadow: "none",
             "&:hover": {
               backgroundColor: "#496BD6",

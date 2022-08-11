@@ -5,25 +5,24 @@
     height: 100%;
   }
 
-  .btnGroup{
+  .btnGroup {
     margin-bottom: 60px;
   }
 
   .btnGroup>.btnLeft,
   .btnGroup>.btnRight {
+    color: #5f7d95 !important;
     border: none;
     padding: 10px 30px;
     text-decoration: none;
     background-color: #fffffe;
-    color: #001e1d;
     font-weight: bold;
   }
 
   .btnGroup>.btnLeft:hover,
   .btnGroup>.btnRight:hover {
     cursor: pointer;
-    background-color: #f9bc60;
-    color: white;
+    color: #496BD6 !important;
   }
 
   .btnLeft {

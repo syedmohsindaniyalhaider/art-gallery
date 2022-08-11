@@ -46,6 +46,7 @@ const SignInForm = ({
         <OutlinedInput
           size="small"
           fullWidth
+          sx={{ mb: "20px", py: "5px" }}
           error={emailHasError}
           type="email"
           name="email"
@@ -55,7 +56,6 @@ const SignInForm = ({
             setLoginEmail(e.target.value);
           }}
           onBlur={emailBlurHandler}
-          sx={{ mb: "20px", py: "5px" }}
         />
         <InputLabel sx={{ color: "#5f7d95", fontWeight: "bold" }}>
           Password

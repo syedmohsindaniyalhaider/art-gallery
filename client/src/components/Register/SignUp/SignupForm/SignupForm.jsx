@@ -1,3 +1,4 @@
+import { Button, Input, InputLabel, OutlinedInput } from "@mui/material";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SignupForm.scss";
@@ -76,96 +77,125 @@ const SignUpForm = ({
   return (
     <>
       <form onSubmit={submitHandler}>
-        <label htmlFor="firstname">First Name</label>
-        <div className="mb">
-          <input
-            type="firstname"
-            name="firstname"
-            className="input"
-            value={firstName}
-            onChange={firstNameChangeHandler}
-            onBlur={firstNameBlurHandler}
-          />
-          {firstNameHasError && (
-            <div>
-              <small className="error">* Enter a valid first name</small>
-            </div>
-          )}
-        </div>
-        <label htmlFor="lastname">Last Name</label>
-        <div className="mb">
-          <input
-            type="lastname"
-            name="lastname"
-            className="input"
-            value={lastName}
-            onChange={lastNameChangeHandler}
-            onBlur={lastNameBlurHandler}
-          />
-          {lastNameHasError && (
-            <div>
-              <small className="error">* Enter a valid last name</small>
-            </div>
-          )}
-        </div>
-        <label htmlFor="email">Email</label>
-        <div className="mb">
-          <input
-            type="email"
-            name="email"
-            className="input"
-            value={email}
-            onChange={(e) => {
-              emailChangeHandler(e);
-              setSignUpEmail(e.target.value);
-            }}
-            onBlur={emailBlurHandler}
-          />
-          {emailHasError && (
-            <div>
-              <small className="error">* Enter a valid email</small>
-            </div>
-          )}
-        </div>
-        <label htmlFor="password">Password</label>
-        <div className="mb">
-          <input
-            type="password"
-            name="password"
-            className="input"
-            value={password}
-            onChange={(e) => {
-              passwordChangeHandler(e);
-              setSignUpPassword(e.target.value);
-            }}
-            onBlur={passwordBlurHandler}
-          />
-          {passwordHasError && (
-            <div>
-              <small className="error">* Enter a valid password</small>
-            </div>
-          )}
-        </div>
-        <label htmlFor="confirmpassword">Confirm Password</label>
-        <div className="mb">
-          <input
-            type="password"
-            name="confirmpassword"
-            className="input"
-            value={confirmPassword}
-            onChange={confirmPasswordChangeHandler}
-            onBlur={confirmPasswordBlurHandler}
-          />
-        </div>
+        <InputLabel
+          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          htmlFor="firstname"
+        >
+          First Name
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          sx={{ mb: "15px", py: "5px" }}
+          type="firstname"
+          name="firstname"
+          value={firstName}
+          onChange={firstNameChangeHandler}
+          onBlur={firstNameBlurHandler}
+          error={firstNameHasError}
+        />
+        <InputLabel
+          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          htmlFor="lastname"
+        >
+          Last Name
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          sx={{ mb: "15px", py: "5px" }}
+          type="lastname"
+          name="lastname"
+          value={lastName}
+          onChange={lastNameChangeHandler}
+          onBlur={lastNameBlurHandler}
+          error={lastNameHasError}
+        />
+        <InputLabel
+          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          htmlFor="email"
+        >
+          Email
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          sx={{ mb: "15px", py: "5px" }}
+          type="email"
+          name="email"
+          className="input"
+          value={email}
+          onChange={(e) => {
+            emailChangeHandler(e);
+            setSignUpEmail(e.target.value);
+          }}
+          onBlur={emailBlurHandler}
+          error={emailHasError}
+        />
+        <InputLabel
+          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          htmlFor="password"
+        >
+          Password
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          sx={{ mb: "15px", py: "5px" }}
+          type="password"
+          name="password"
+          className="input"
+          value={password}
+          onChange={(e) => {
+            passwordChangeHandler(e);
+            setSignUpPassword(e.target.value);
+          }}
+          onBlur={passwordBlurHandler}
+          error={passwordHasError}
+        />
+        <InputLabel
+          sx={{ color: "#5f7d95", fontWeight: "bold" }}
+          htmlFor="confirmpassword"
+        >
+          Confirm Password
+        </InputLabel>
+        <OutlinedInput
+          size="small"
+          fullWidth
+          sx={{ mb: "15px", py: "5px" }}
+          type="password"
+          name="confirmpassword"
+          className="input"
+          value={confirmPassword}
+          onChange={confirmPasswordChangeHandler}
+          onBlur={confirmPasswordBlurHandler}
+          error={!passwordMatch}
+        />
         {!passwordMatch && (
           <small className="error">Password does not match</small>
         )}
-        <button
-          className={!formIsValid || !passwordMatch ? "disable" : "btn"}
+        <Button
+          size="small"
+          fullWidth
+          disableRipple
+          sx={{
+            py: "15px",
+            mt: "20px",
+            textTransform: "capitalize",
+            fontWeight: "bold",
+            backgroundColor: "#496BD6",
+
+            boxShadow: "none",
+            "&:hover": {
+              backgroundColor: "#496BD6",
+              boxShadow: "none",
+            },
+          }}
+          variant="contained"
           disabled={!formIsValid || !passwordMatch}
         >
           Sign Up
-        </button>
+        </Button>
       </form>
     </>
   );

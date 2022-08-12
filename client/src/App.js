@@ -11,13 +11,19 @@ import About from "./components/About/About";
 import SignIn from "./components/Register/SignIn/Signin";
 import SignUp from "./components/Register/SignUp/Signup";
 import Profile from "./components/Profile/Profile";
-function App() {
-  let loggedIn = localStorage.getItem("loggedIn");
-  let user = JSON.parse(loggedIn);
+import { useEffect, useState } from "react";
+const App = () => {
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    console.log("app", user);
+  }, [user]);
+
+  // let loggedIn = JSON.parse(localStorage.getItem("loggedIn"));
+
   return (
     <Routes>
       <Route path="/" exact element={<Register />}>
-        <Route path="signin" element={<SignIn />} />
+        <Route path="signin" element={<SignIn setUser={setUser} />} />
         <Route exact path="signup" element={<SignUp />} />
       </Route>
       {user?.message === "loggedIn" && (
@@ -37,6 +43,6 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
-}
+};
 
 export default App;

@@ -2,7 +2,8 @@ import { Button, InputLabel, OutlinedInput } from "@mui/material";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SigninForm.scss";
-const SignInForm = ({ getUser }) => {
+const SignInForm = (props) => {
+  const { getUser } = props;
   const {
     value: email,
     hasError: emailHasError,

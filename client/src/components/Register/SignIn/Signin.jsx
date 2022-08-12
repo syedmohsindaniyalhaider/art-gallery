@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import SignInForm from "./SigninForm/SigninForm";
 // import "./Signin.scss";
-const SignIn = () => {
+const SignIn = (props) => {
+  const { setUser } = props;
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -18,8 +19,12 @@ const SignIn = () => {
         },
       });
       const data = await res.json();
+      const { message } = data;
       if (data.message === "loggedIn") {
         // console.log(data);
+        console.log("set user", data);
+        console.log("set message", message);
+        setUser(message);
         localStorage.setItem("loggedIn", JSON.stringify(data));
         navigate("/home", { replace: true });
       } else {
@@ -40,7 +45,7 @@ const SignIn = () => {
   }, [error, message]);
   return (
     <>
-      <SignInForm getUser={getUser} />
+      <SignInForm getUser={getUser} setUser={setUser} />
       {error && (
         <Box sx={{ mt: "20px", color: "red", fontWeight: "bold" }}>{error}</Box>
       )}

@@ -4,7 +4,7 @@ import useInput from "../../../../hooks/use-input";
 import "./SignupForm.scss";
 const SignUpForm = ({
   addUser,
-  userAlreadyExist,
+  setMessage,
   setSignUpEmail,
   setSignUpPassword,
 }) => {

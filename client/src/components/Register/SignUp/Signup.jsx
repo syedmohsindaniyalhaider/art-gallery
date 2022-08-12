@@ -1,46 +1,45 @@
 import React, { useState } from "react";
 import SignUpForm from "./SignupForm/SignupForm";
 import "./Signup.scss";
+import { Box } from "@mui/system";
+import { CircularProgress } from "@mui/material";
 const SignUp = () => {
   const [userAdd, setUserAdd] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
   // const [signUpEmail, setSignUpEmail] = useState("");
   // const [signUpPassword, setSignUpPassword] = useState("");
-  const [userAlreadyExist, setUserAlreadyExist] = useState(null);
   const addUser = async (userDetails) => {
     console.log(userDetails);
-    setLoading(true);
     setError(null);
     try {
-      await fetch("http://localhost:3001/auth/signup", {
+      const res = await fetch("http://localhost:3001/auth/signup", {
         method: "POST",
         body: JSON.stringify(userDetails),
         headers: {
           "Content-type": "application/json",
         },
       });
+      const data = await res.json();
+      setMessage(data.message);
     } catch (e) {
       setError(e.message);
     }
     setUserAdd(true);
-    setLoading(false);
   };
   return (
     <>
       <SignUpForm
-        userAlreadyExist={userAlreadyExist}
+        setMessage={setMessage}
         addUser={addUser}
         // setSignUpEmail={setSignUpEmail}
         // setSignUpPassword={setSignUpPassword}
       />
-      {loading && <div className="loader"></div>}
-      {error && !loading && <div className="error">{error}</div>}
-      {userAlreadyExist && !userAdd && !loading && (
-        <div className="error">* User Already Exist</div>
-      )}
-      {userAdd && !loading && (
-        <small className="success">User Added Successfully!</small>
+      {error && <Box sx={{ color: "red" }}>{error}</Box>}
+      {message && (
+        <Box sx={{ mt: "20px", color: "#496BD6", fontWeight: "bold" }}>
+          {message}
+        </Box>
       )}
     </>
   );

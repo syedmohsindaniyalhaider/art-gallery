@@ -70,13 +70,18 @@ app.get("/arts", (req, res) => {
 // post users
 
 app.post("/auth/signup", (req, res) => {
-  console.log(req.body);
-  registerationSchema.create(req.body, (error, data) => {
-    if (error) {
-      return next(error);
+  registerationSchema.findOne({ email: req.body.email }, (err, user) => {
+    console.log(user);
+    if (user) {
+      res.send({ message: "User already registered!" });
     } else {
-      console.log(data);
-      res.json(data);
+      registerationSchema.create(user, (error, data) => {
+        if (error) {
+          res.send({ message: "Error Occured!" });
+        } else {
+          res.json(data);
+        }
+      });
     }
   });
 });

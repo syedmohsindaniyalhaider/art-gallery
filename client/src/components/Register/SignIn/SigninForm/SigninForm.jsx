@@ -2,14 +2,7 @@ import { Button, InputLabel, OutlinedInput } from "@mui/material";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SigninForm.scss";
-const SignInForm = ({
-  loading,
-  error,
-  userExist,
-  loadUsers,
-  setLoginEmail,
-  setLoginPassword,
-}) => {
+const SignInForm = ({ getUser }) => {
   const {
     value: email,
     hasError: emailHasError,
@@ -29,13 +22,16 @@ const SignInForm = ({
 
   let formIsValid = emailIsValid && passwordIsValid;
 
+  const user = {
+    email,
+    password,
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    loadUsers();
-    if (userExist) {
-      resetEmail();
-      resetPassword();
-    }
+    getUser(user);
+    resetEmail();
+    resetPassword();
   };
   return (
     <>
@@ -53,10 +49,7 @@ const SignInForm = ({
           type="email"
           name="email"
           value={email}
-          onChange={(e) => {
-            emailChangeHandler(e);
-            setLoginEmail(e.target.value);
-          }}
+          onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
         />
         <InputLabel
@@ -72,22 +65,11 @@ const SignInForm = ({
           type="password"
           name="password"
           value={password}
-          onChange={(e) => {
-            passwordChangeHandler(e);
-            setLoginPassword(e.target.value);
-          }}
+          onChange={passwordChangeHandler}
           onBlur={passwordBlurHandler}
         />
-        {loading && <div className="loader"></div>}
-        <div className="w">
-          <small>{error}</small>
-        </div>
-        {userExist !== null && !userExist && !loading && (
-          <div>
-            <small className="error">* Incorrect email or password</small>
-          </div>
-        )}
         <Button
+          type="submit"
           size="small"
           fullWidth
           disableRipple

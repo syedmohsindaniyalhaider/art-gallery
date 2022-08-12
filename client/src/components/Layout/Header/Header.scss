@@ -4,22 +4,11 @@
     list-style-type: none;
     gap: 20px;
   }
-
   .link {
     text-decoration: none;
   }
-
-  .link:hover {
-    color: white;
-  }
-
-  .btn {
-    background-color: #f9bc60;
-    color: #001e1d;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    text-decoration: none;
-  }
+}
+.menu-link {
+  text-decoration: none;
+  color: #272343;
 }

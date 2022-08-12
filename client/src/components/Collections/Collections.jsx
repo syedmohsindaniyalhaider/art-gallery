@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Collections.scss";
 import Box from "@mui/material/Box";
 import FileBase64 from "react-file-base64";
@@ -21,11 +21,11 @@ import useInput from "../../hooks/use-input";
 
 const options = ["Digital", "Physical"];
 
-const Collections = () => {
+const Collections = ({ user }) => {
   const [file, setFile] = useState("");
   const [arts, setArts] = useState([]);
   const [type, setType] = useState(options[0]);
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const {
     value: title,
@@ -62,6 +62,7 @@ const Collections = () => {
     description: description,
     image: file,
     type: type,
+    userEmail: user.email,
   };
 
   const artsHTTP = async () => {
@@ -72,20 +73,22 @@ const Collections = () => {
     }).catch((err) => console.error(err));
   };
 
-  const fetchArts = async () => {
-    const response = await fetch("http://localhost:3001/arts");
-    const data = await response.json();
-    console.log(data);
-    setArts(data);
-  };
+  const fetchArts = useCallback(async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/arts/${user.email}`);
+      const data = await response.json();
+      setArts(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [user.email]);
 
   useEffect(() => {
     fetchArts();
-  }, []);
+  }, [fetchArts]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(file);
     artsHTTP();
     resetTitle();
     resetPrice();
@@ -224,7 +227,7 @@ const Collections = () => {
         </form>
         <Box>
           <h2>
-            All Arts
+            My Arts
             <Divider />
           </h2>
           <Grid
@@ -232,22 +235,22 @@ const Collections = () => {
             rowSpacing={{ xs: 1, sm: 2, md: 3 }}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            {arts.map((item) => (
-              <Grid item xs={12} sm={6} md={3}>
+            {arts.map((ele) => (
+              <Grid item xs={12} sm={6} md={3} key={ele.id}>
                 <Card>
                   <CardActionArea>
                     <CardMedia
                       component="img"
                       height="140"
-                      image={item.image}
+                      image={ele.image}
                       alt="green iguana"
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
-                        {item.title}
+                        {ele.title}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {item.description}
+                        {ele.description}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -259,13 +262,13 @@ const Collections = () => {
                     }}
                   >
                     <Typography sx={{ fontSize: "13px", mx: 2, my: 1 }}>
-                      Rs. {item.price}
+                      Rs. {ele.price}
                     </Typography>
-                    {item.type && (
+                    {ele.type && (
                       <Badge
                         sx={{ mr: "40px" }}
                         color="secondary"
-                        badgeContent={item.type}
+                        badgeContent={ele.type}
                       ></Badge>
                     )}
                   </Box>

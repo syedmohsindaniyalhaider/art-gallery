@@ -1,13 +1,9 @@
 import { Button, InputLabel, OutlinedInput } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
 import useInput from "../../../../hooks/use-input";
 import "./SignupForm.scss";
-const SignUpForm = ({
-  addUser,
-  setMessage,
-  setSignUpEmail,
-  setSignUpPassword,
-}) => {
+const SignUpForm = ({ addUser }) => {
   const {
     value: firstName,
     hasError: firstNameHasError,
@@ -125,10 +121,7 @@ const SignUpForm = ({
           name="email"
           className="input"
           value={email}
-          onChange={(e) => {
-            emailChangeHandler(e);
-            setSignUpEmail(e.target.value);
-          }}
+          onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
           error={emailHasError}
         />
@@ -146,10 +139,7 @@ const SignUpForm = ({
           name="password"
           className="input"
           value={password}
-          onChange={(e) => {
-            passwordChangeHandler(e);
-            setSignUpPassword(e.target.value);
-          }}
+          onChange={passwordChangeHandler}
           onBlur={passwordBlurHandler}
           error={passwordHasError}
         />
@@ -171,9 +161,7 @@ const SignUpForm = ({
           onBlur={confirmPasswordBlurHandler}
           error={!passwordMatch}
         />
-        {/* {!passwordMatch && (
-          <small className="error">Password does not match</small>
-        )} */}
+
         <Button
           type="submit"
           size="small"
@@ -197,6 +185,11 @@ const SignUpForm = ({
           Sign Up
         </Button>
       </form>
+      {!passwordMatch && (
+        <Box sx={{ mt: "20px", color: "#496BD6", fontWeight: "bold" }}>
+          Password does not match
+        </Box>
+      )}
     </>
   );
 };

@@ -5,27 +5,34 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./components/Register/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PageNotFound from "./components/Pagenotfound/Pagenotfound";
-
 import Collections from "./components/Collections/Collections";
 import Discover from "./components/Discover/Discover";
 import About from "./components/About/About";
 import SignIn from "./components/Register/SignIn/Signin";
 import SignUp from "./components/Register/SignUp/Signup";
+import Profile from "./components/Profile/Profile";
 function App() {
-  let isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log(isLoggedIn);
+  let loggedIn = localStorage.getItem("loggedIn");
+  let user = JSON.parse(loggedIn);
   return (
     <Routes>
       <Route path="/" exact element={<Register />}>
-        <Route exact path="signin" element={<SignIn />} />
+        <Route path="signin" element={<SignIn />} />
         <Route exact path="signup" element={<SignUp />} />
       </Route>
-      <Route exact element={<Main />}>
-        <Route exact path="home" element={<Home />} />
-        <Route exact path="collections" element={<Collections />} />
-        <Route exact path="discover" element={<Discover />} />
-        <Route exact path="about" element={<About />} />
-      </Route>
+      {user?.message === "loggedIn" && (
+        <Route path="/" element={<Main user={user} />}>
+          <Route path="home" element={<Home />} />
+          <Route
+            exact
+            path="collections"
+            element={<Collections user={user} />}
+          />
+          <Route exact path="discover" element={<Discover />} />
+          <Route exact path="about" element={<About />} />
+          <Route exact path="profile" element={<Profile />} />
+        </Route>
+      )}
       <Route path="*" element={<PageNotFound />} />
       <Route path="/dashboard" element={<Dashboard />} />
     </Routes>

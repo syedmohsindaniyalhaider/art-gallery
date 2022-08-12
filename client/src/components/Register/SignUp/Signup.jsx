@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import SignUpForm from "./SignupForm/SignupForm";
 import "./Signup.scss";
 import { Box } from "@mui/system";
-import { CircularProgress } from "@mui/material";
 const SignUp = () => {
   const [userAdd, setUserAdd] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
-  // const [signUpEmail, setSignUpEmail] = useState("");
-  // const [signUpPassword, setSignUpPassword] = useState("");
   const addUser = async (userDetails) => {
     console.log(userDetails);
     setError(null);
@@ -27,18 +24,31 @@ const SignUp = () => {
     }
     setUserAdd(true);
   };
+
+  useEffect(() => {
+    if (userAdd || error || message) {
+      setTimeout(() => {
+        setUserAdd(false);
+        setError(null);
+        setMessage("");
+      }, 2000);
+    }
+  }, [userAdd, error, message]);
+
   return (
     <>
-      <SignUpForm
-        setMessage={setMessage}
-        addUser={addUser}
-        // setSignUpEmail={setSignUpEmail}
-        // setSignUpPassword={setSignUpPassword}
-      />
-      {error && <Box sx={{ color: "red" }}>{error}</Box>}
+      <SignUpForm addUser={addUser} />
+      {error && (
+        <Box sx={{ mt: "20px", color: "red", fontWeight: "bold" }}>{error}</Box>
+      )}
       {message && (
         <Box sx={{ mt: "20px", color: "#496BD6", fontWeight: "bold" }}>
           {message}
+        </Box>
+      )}
+      {userAdd && !message && !error && (
+        <Box sx={{ mt: "20px", color: "green", fontWeight: "bold" }}>
+          User added successfully
         </Box>
       )}
     </>

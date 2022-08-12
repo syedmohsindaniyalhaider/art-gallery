@@ -6,10 +6,10 @@ import { Outlet } from "react-router";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-const Main = () => {
+const Main = ({ user }) => {
   return (
     <>
-      <Header />
+      <Header user={user} />
       <Box
         sx={{
           minHeight: "100vh",

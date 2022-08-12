@@ -1,5 +1,5 @@
 import "./Header.scss";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -20,7 +20,10 @@ const pages = [
   { name: "Discover", link: "discover" },
   { name: "About", link: "about" },
 ];
-const settings = ["Profile", "Logout"];
+const settings = [
+  { name: "Profile", link: "profile" },
+  { name: "Logout", link: "signin" },
+];
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -106,9 +109,9 @@ const Header = (props) => {
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
+                <p onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  Hi, {props.user.firstName.toUpperCase()}
+                </p>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
@@ -127,9 +130,16 @@ const Header = (props) => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
+                  <Link
+                    key={setting.name}
+                    to={setting.link}
+                    className="menu-link"
+                    onClick={() => localStorage.removeItem("loggedIn")}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography>{setting.name}</Typography>
+                    </MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
@@ -138,38 +148,6 @@ const Header = (props) => {
       </AppBar>
     </ElevationScroll>
   );
-
-  // return (
-  //   <header className={styles.header}>
-  //     <ul className={styles.list}>
-  //       <li>
-  //         <Link to="/home" className={styles.link}>
-  //           Home
-  //         </Link>
-  //       </li>
-  //       <li>
-  //         <Link to="/blogs" className={styles.link}>
-  //           Create Blog
-  //         </Link>
-  //       </li>
-  //       <li>
-  //         <Link to="/contact" className={styles.link}>
-  //           Contact
-  //         </Link>
-  //       </li>
-  //     </ul>
-
-  //     <Link
-  //       to="/"
-  //       className={styles.btn}
-  //       onClick={() => {
-  //         localStorage.removeItem("isLoggedIn");
-  //       }}
-  //     >
-  //       Logout
-  //     </Link>
-  //   </header>
-  // );
 };
 
 export default Header;

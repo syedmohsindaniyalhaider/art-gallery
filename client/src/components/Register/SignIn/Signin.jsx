@@ -1,60 +1,54 @@
-import React, { useState } from "react";
+import { Box } from "@mui/system";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import SignInForm from "./SigninForm/SigninForm";
 // import "./Signin.scss";
 const SignIn = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [userExist, setUserExist] = useState(null);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const loadUsers = async () => {
-    setLoading(true);
+  const getUser = async (user) => {
     setError(null);
     try {
-      const url =
-        "https://blindit-c5213-default-rtdb.firebaseio.com/users.json";
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error("Something went Wrong!");
-      }
+      const res = await fetch("http://localhost:3001/auth/signin", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
       const data = await res.json();
-      const loadedUsers = [];
-      for (const key in data) {
-        loadedUsers.push({
-          id: key,
-          firstName: data[key]?.firstName,
-          email: data[key]?.email,
-          password: data[key]?.password,
-          roles: data[key]?.roles,
-        });
-      }
-      const matchUser = loadedUsers.filter(
-        (user) => user.email === loginEmail && user.password === loginPassword
-      );
-
-      let exist = matchUser.length > 0 ? true : false;
-      setUserExist(exist);
-      if (exist) {
-        localStorage.setItem("isLoggedIn", true);
-        navigate("/home");
+      if (data.message === "loggedIn") {
+        // console.log(data);
+        localStorage.setItem("loggedIn", JSON.stringify(data));
+        navigate("/home", { replace: true });
+      } else {
+        setMessage(data.message);
       }
     } catch (err) {
       setError(err.message);
     }
-    setLoading(false);
   };
+
+  useEffect(() => {
+    if (error || message) {
+      setTimeout(() => {
+        setError(null);
+        setMessage("");
+      }, 2000);
+    }
+  }, [error, message]);
   return (
     <>
-      <SignInForm
-        error={error}
-        loading={loading}
-        userExist={userExist}
-        loadUsers={loadUsers}
-        setLoginEmail={setLoginEmail}
-        setLoginPassword={setLoginPassword}
-      />
+      <SignInForm getUser={getUser} />
+      {error && (
+        <Box sx={{ mt: "20px", color: "red", fontWeight: "bold" }}>{error}</Box>
+      )}
+      {message && !error && (
+        <Box sx={{ mt: "20px", color: "#496BD6", fontWeight: "bold" }}>
+          {message}
+        </Box>
+      )}
     </>
   );
 };

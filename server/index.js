@@ -67,15 +67,27 @@ app.get("/arts", (req, res) => {
     });
 });
 
+app.get("/arts/:email", (req, res) => {
+  console.log(req.body);
+  db.collection("arts")
+    .find({ userEmail: req.params.email })
+    .toArray(function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+});
+
 // post users
 
 app.post("/auth/signup", (req, res) => {
   registerationSchema.findOne({ email: req.body.email }, (err, user) => {
-    console.log(user);
     if (user) {
-      res.send({ message: "User already registered!" });
+      res.send({ message: "User already registered" });
     } else {
-      registerationSchema.create(user, (error, data) => {
+      registerationSchema.create(req.body, (error, data) => {
         if (error) {
           res.send({ message: "Error Occured!" });
         } else {
@@ -84,6 +96,28 @@ app.post("/auth/signup", (req, res) => {
       });
     }
   });
+});
+
+// get all users
+
+app.post("/auth/signin", (req, res) => {
+  const { email, password } = req.body;
+  registerationSchema.findOne(
+    { email: email, password: password },
+    (err, user) => {
+      if (user) {
+        res.send({
+          email: user.email,
+          firstName: user.firstName,
+          message: "loggedIn",
+        });
+      } else if (user == null) {
+        res.send({ message: "Make sure you are registered" });
+      } else {
+        res.send({ message: "Error Occured!" });
+      }
+    }
+  );
 });
 
 // post a comment

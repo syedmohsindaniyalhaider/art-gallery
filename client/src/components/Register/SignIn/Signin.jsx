@@ -3,11 +3,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import SignInForm from "./SigninForm/SigninForm";
 // import "./Signin.scss";
-const SignIn = (props) => {
-  const { setUser } = props;
+const SignIn = () => {
+  const [newUser, setNewUser] = useState({ email: "", firstName: "" });
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("New User 1::", newUser);
+    return () => console.log("New User 2::", newUser);
+  }, [newUser]);
+
   const getUser = async (user) => {
     setError(null);
     try {
@@ -19,12 +25,13 @@ const SignIn = (props) => {
         },
       });
       const data = await res.json();
+      console.log("Data ", data);
+      setNewUser({ email: data.email, firstName: data.firstName });
       const { message } = data;
       if (data.message === "loggedIn") {
-        // console.log(data);
         console.log("set user", data);
         console.log("set message", message);
-        setUser(message);
+
         localStorage.setItem("loggedIn", JSON.stringify(data));
         navigate("/home", { replace: true });
       } else {
@@ -34,6 +41,11 @@ const SignIn = (props) => {
       setError(err.message);
     }
   };
+
+  // const userSet = () => {
+  //   console.log("New User ::", newUser);
+  //   setUser(newUser);
+  // };
 
   useEffect(() => {
     if (error || message) {
@@ -45,7 +57,7 @@ const SignIn = (props) => {
   }, [error, message]);
   return (
     <>
-      <SignInForm getUser={getUser} setUser={setUser} />
+      <SignInForm getUser={getUser} />
       {error && (
         <Box sx={{ mt: "20px", color: "red", fontWeight: "bold" }}>{error}</Box>
       )}
